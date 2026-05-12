@@ -1,0 +1,25 @@
+cấu trúc
+MOHINH/
+│
+├── data/                       # Chứa dữ liệu đầu vào
+│   ├── nhangoc.jsonl           # File nhãn bạn đã cung cấp
+│   └── videos/                 # Chứa các file .mp4 (e000001.mp4, ...)
+│
+├── models/                     # Chứa kiến trúc các mô hình thành phần
+│   ├── __init__.py
+│   ├── backbones.py            # EfficientNet & I3D (Học từ Source 1, 2)
+│   ├── alignment.py            # Attention & STA Layer (Học từ Source 3, 4)
+│   └── agent.py                # Actor-Critic Network (Học từ Source 1)
+│
+├── utils/                      # Các công cụ hỗ trợ
+│   ├── preprocessing.py        # Hàm CLAHE làm rõ ảnh (Học từ Source 2)
+│   └── metrics.py              # Tính IoU, mAP
+│
+├── config/                     # Cấu hình tham số
+│   └── settings.py             # Learning rate, Batch size, Hidden dims
+│
+├── data_loader.py              # Xử lý đọc file .jsonl và Video
+├── train.py                    # Luồng huấn luyện chính
+└── README.md                   # Hướng dẫn sử dụng
+
+
