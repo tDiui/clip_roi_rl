@@ -202,7 +202,7 @@ def train():
                         batch_rl_loss += (
                             -m.log_prob(act) * advantage.detach() + 
                             F.mse_loss(val, target) - 
-                            0.01 * entropy  # 0.01 là trọng số entropy để ép Agent khám phá
+                            0.05 * entropy  # 0.01 là trọng số entropy để ép Agent khám phá
                         )
                         
                         p_iou = c_iou

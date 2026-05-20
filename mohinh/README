@@ -5,13 +5,18 @@ pip install streamlit opencv-python torch torchvision moviepy ftfy regex tqdm
 pip install imageio-ffmpeg
 pip install moviepy --upgrade
 pip install tensorboard
+pip install ultralytics
 pip install streamlit-drawable-canvas
 pip install --upgrade streamlit-drawable-canvas
+pip install imageio-ffmpeg
+
 python -m pip install --upgrade pip setuptools wheel
 pip install numpy==1.26.4 --only-binary :all:
 pip install -U streamlit streamlit-drawable-canvas numpy
+.\.venv\Scripts\python.exe -m pip install opencv-python pillow tqdm numpy
 https://drive.google.com/drive/u/0/folders/1nNe5rSMcOGSAFu55oJKnOeHXTAreyyZr
 https://drive.google.com/drive/u/0/folders/1SJs4fPlF9oEpWmDoPJ_BwSP2y1q8DPI0
+https://drive.google.com/drive/folders/1SE2vd2ql7b99VDU0G2I3dAspLOhCPLKH
 
 .\.venv\Scripts\activate
 python train.py
