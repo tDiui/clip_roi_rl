@@ -98,7 +98,6 @@ class NhangocDataset(Dataset):
             cap.set(cv2.CAP_PROP_POS_FRAMES, idx)
             ret, frame = cap.read()
             if ret:
-                # Sếp Thái bảo tắt CLAHE để test độ nguyên bản
                 frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
                 frame = self.transform(Image.fromarray(frame))
                 frames.append(frame)
