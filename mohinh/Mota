@@ -1,25 +1,35 @@
-cấu trúc
 MOHINH/
 │
-├── data/                       # Chứa dữ liệu đầu vào
-│   ├── nhangoc.jsonl           # File nhãn bạn đã cung cấp
-│   └── videos/                 # Chứa các file .mp4 (e000001.mp4, ...)
+├── checkpoints/                # Lưu trọng số tác tử Actor-Critic qua từng Epoch (vd: vmr_agent_epoch_40.pth) để phòng sự cố
 │
-├── models/                     # Chứa kiến trúc các mô hình thành phần
+├── config/                     # Cấu hình tham số hệ thống
 │   ├── __init__.py
-│   ├── backbones.py            # EfficientNet & I3D (Học từ Source 1, 2)
-│   ├── alignment.py            # Attention & STA Layer (Học từ Source 3, 4)
-│   └── agent.py                # Actor-Critic Network (Học từ Source 1)
+│   └── settings.py             # Chứa Hyperparameters (Step Size, Threshold sáng, InfoNCE Temp, Mức thưởng Jackpot...)
 │
-├── utils/                      # Các công cụ hỗ trợ
-│   ├── preprocessing.py        # Hàm CLAHE làm rõ ảnh (Học từ Source 2)
-│   └── metrics.py              # Tính IoU, mAP
+├── data/                       # Không gian chứa dữ liệu (Data-centric)
+│   ├── annotation_vmr.jsonl    # File nhãn đa phương thức đã được làm sạch và chuẩn hóa
+│   ├── roi.json                # Chứa tọa độ đa giác thiết lập mặt nạ Vùng quan tâm (ROI Masking)
+│   ├── videos/                 # Chứa dữ liệu CCTV thô (.mp4)
+│   └── offline_features/       # Chứa toàn bộ 3902 file Tensor (.pt) để nạp thẳng lên RAM (Pre-loading)
 │
-├── config/                     # Cấu hình tham số
-│   └── settings.py             # Learning rate, Batch size, Hidden dims
+├── logs/                       # (Hoặc thư mục runs/) Chứa log để theo dõi Loss và mIoU trên nền tảng TensorBoard
 │
-├── data_loader.py              # Xử lý đọc file .jsonl và Video
-├── train.py                    # Luồng huấn luyện chính
-└── README.md                   # Hướng dẫn sử dụng
-
-
+├── models/                     # Kiến trúc mạng lõi (Hybrid Architecture)
+│   ├── __init__.py
+│   ├── backbones.py            # Chứa mô hình nền tảng CLIP (ViT-L/14) tích hợp module tinh chỉnh PEFT (mở khóa lớp 23)
+│   ├── alignment.py            # Khối căn chỉnh chéo (Element-wise dot product) và Temporal Enhancement Loop
+│   └── agent.py                # Mạng Actor-Critic (RL) với 5 không gian hành động (Dịch trái, phải, mở rộng, thu hẹp, dừng)
+│
+├── utils/                      # Công cụ hỗ trợ xử lý nền
+│   ├── __init__.py
+│   ├── preprocessing.py        # Hàm cân bằng sáng Conditional CLAHE và chạy YOLOv8 detection
+│   └── metrics.py              # Công thức tính chỉ số đánh giá (mIoU, Recall@1) và Hàm phần thưởng (Reward)
+│
+├── app.py                      # Mã nguồn chạy giao diện ứng dụng Web UI (Text Query & Image Query)
+├── check_data.py               # Công cụ tự động Audit/thống kê kiểm tra chất lượng file JSONL
+├── data_loader.py              # Xử lý nạp dữ liệu (OfflineFeatureDataset) và gom nhóm Clip_id bằng defaultdict
+├── merge_data.py               # Tool gộp nhãn và đồng bộ hóa ranh giới dữ liệu cho nhóm
+├── split_dataset.py            # Kịch bản chia tập Train/Val/Test (chống Clip Leakage) và module split_complex_action
+├── train.py                    # Luồng huấn luyện chính (Tích hợp vòng lặp Tiến trình quyết định Markov - MDP)
+├── yolov8n.pt                  # Trọng số Pre-trained của YOLOv8 dùng làm lớp tiền xử lý
+└── README.md                   # Hướng dẫn cài đặt môi trường và khởi chạy hệ thống
